@@ -16,6 +16,7 @@ interface Product {
 export default function Cart() {
 
     const [jsonData, setJsonData] = useState([]);
+    const [total_price, setTotalPrice] = useState('');
     const [quantityInput, setQuantityInput] = useState('');
 
     useEffect(() => {
@@ -26,7 +27,8 @@ export default function Cart() {
             if (token) {
               const response = await axios.get('http://localhost:3001/seller/view_cart', { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true });
               const jsonData = response.data
-              setJsonData(jsonData);
+              setJsonData(jsonData.cart_data);
+              setTotalPrice(jsonData.total_price);
               //setQuantityInput(jsonData.productQuantity);
 
             } else {
@@ -41,13 +43,13 @@ export default function Cart() {
         fetchUserData();
     });
 
-    async function handleOrder(items: any, msg: string){
+    async function handleOrder(items: number, msg: string){
         try {
     
           const token = localStorage.getItem('token');
           const username = localStorage.getItem('username');
           if (token) {
-            const response = await axios.post(`http://localhost:3001/seller/confirm_order/?msg=${msg}&username=${username}` );
+            const response = await axios.post(`http://localhost:3001/seller/confirm_order/?msg=${msg}&username=${username}&productId=${items}` );
     
             toast.success('Add to Cart');
     
@@ -57,6 +59,8 @@ export default function Cart() {
         } catch(error){
           console.error('Error Add Cart:', error);
         }
+
+        console.log(items);
     }
 
 
@@ -84,9 +88,9 @@ export default function Cart() {
     };
  
     return (<>
-        <Session />
+       <Session />
 
-        <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 gap-2">
         {jsonData.map((items: any, index: any) => {
            return (<div key={index}>
             {/* <ProductCard data={items} /> */}
@@ -108,11 +112,11 @@ export default function Cart() {
               <div className="flex items-center justify-between">
             {/* <Link href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</Link>
             <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</a> */}
-               <button className="text-white bg-neutral hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => handleOrder(items.productId, "yes")}>CheckOut</button>
+               <button className="text-white bg-neutral hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => handleOrder(items.productId, "no")}>Remove</button>
               </div>
               </div>
             </div>
-          </div>
+      </div>
 
           );
         }
@@ -120,6 +124,8 @@ export default function Cart() {
 
         )}
       </div>
+      <h6> {total_price} </h6>
+      <button className="text-white bg-neutral hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => handleOrder(0, "yes")}>CheckOut</button>
         </>
     );
 }
