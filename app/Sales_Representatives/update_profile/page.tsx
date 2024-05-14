@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import Session from '../components/session';
+import Link from 'next/link';
  
 interface User {
 
@@ -82,16 +84,10 @@ export default function UpdateProfile() {
 
      //if (Object.keys(validationErrors).length === 0) {
         try {
-            const formDataObject = new FormData();
-            formDataObject.append('name', nameInput);
-            formDataObject.append('email', emailInput);
-            formDataObject.append('number', NumberInput);
-        // if (formData.myfile) {
-        //   formDataObject.append('profilePic', formData.myfile);
-        // }
-        //console.log(formDataObject);
-        //console.log(formData);
-            const response = await axios.put('http://localhost:3001/seller/update_profile/' + username, formDataObject, {
+            const response = await axios.put('http://localhost:3001/seller/update_profile/' + username, {
+                name:nameInput,
+                email:emailInput,
+                number:NumberInput}, {
 
                 headers: {
 
@@ -101,12 +97,12 @@ export default function UpdateProfile() {
 
             });
         
-            toast.success('Signup successful!');
-            router.push('/Sales_Representatives/sign_in');
+            toast.success('Update successful!');
+            router.push('/Sales_Representatives/show_profile');
      
         } catch (error) {
-           console.error('Error during signup:', error);
-           toast.error('Signup failed. Please try again.');
+           console.error('Error during update:', error);
+           toast.error('Update failed. Please try again.');
         }
     // } else {
     //   //setErrors(validationErrors);
@@ -133,42 +129,11 @@ export default function UpdateProfile() {
     return (
 
         <>
-
-            {/* <div className="card w-96 bg-base-100 shadow-xl">
-
-                <figure className="px-10 pt-10">
-
-                    <img src={'http://localhost:3008/warehouse/getimage/' + user.filename} alt="Shoes" className="rounded-xl" />
-
-                </figure>
-
-                <div className="card-body items-center text-center">
-
-                    <h2 className="card-title">ID: {user.warehouseId}</h2>
-
-                    Name: {user.name} <br />
-
-                    UserName: {user.username} <br />
-
-                    email: {user.email} <br />
-
-                    Address: {user.address} <br />
-
-                    <input type="text" value={emailInput} onChange={handleEmailChange} />
-
-                    <div className="card-actions">
-
-                        <button className="btn btn-primary">Update</button>
-
-                    </div>
-
-                </div>
-
-            </div> */}
+        <Session />
 
     <div className="max-w-md mx-auto mt-8">
         <div className="flex items-center justify-center gap-2 mt-3 mb-3">
-            <h1 className="">Sign up</h1>
+            <h1 className="">Update Profile</h1>
         </div>
         <Toaster />
         <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -193,6 +158,7 @@ export default function UpdateProfile() {
             <div className=" flex items-center justify-center gap-2 mb-2">
                 <input type="text" id="position"
                     name="position"
+                    readOnly
                     value={user?.position}
                     className="input input-bordered" placeholder="Position" />
                 {/* {errors.position && <p className="text-red-500 text-xs italic">{errors.position}</p>} */}
@@ -200,22 +166,24 @@ export default function UpdateProfile() {
             <div className=" flex items-center justify-center gap-2 mb-2">
                 <input type="text" id="username"
                     name="username"
+                    readOnly
                     value={user?.username}
                     className="input input-bordered" placeholder="Username" />
                 {/* {errors.username && <p className="text-red-500 text-xs italic">{errors.username}</p>} */}
             </div>
             <div className=" flex items-center justify-center gap-2 mb-2">
-                <input type="file" id="myfile"
-                    name="myfile"
-                    onChange={handleFileInputChange} className="file-input file-input-bordered file-input-sm w-full max-w-xs" />
-            </div>
-            <div className="flex justify-center">
+                <img className="p-8 rounded-t-lg" src={'http://localhost:3001/seller/getimage/' + user?.filename} alt="product image" />
+                {/* {errors.username && <p className="text-red-500 text-xs italic">{errors.username}</p>} */}
+            </div>          
+            <div className="flex gap-2 justify-center">
                 <button
                     type="submit"
-                    className="btn btn-active"
-                >
-                    Sign Up
+                    className="btn btn-active">
+                    Save Changes
                 </button>
+                <div className="card-actions">
+                    <button className="btn btn-primary"><Link href="/Sales_Representatives/update_picture/">Update Picture</Link></button>
+                </div>
             </div>
         </form>
     </div>

@@ -6,26 +6,29 @@ import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import UpdateProduct from '../update_product/page';
 import NavBar from '../components/navbar';
+import Session from '../components/session';
 
 
 
 interface FormData {
   name: string;
   email: string;
+  address: string;
   number: string;
-  position: string;
+  user: string;
   username: string;
   password: string;
   myfile: File | null;
 }
 
-export default function Signup() {
+export default function AddCustomer() {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
+    address: '',
     number: '',
-    position: 'seller',
+    user: 'customer',
     username: '',
     password: '',
     myfile: null,
@@ -41,8 +44,9 @@ export default function Signup() {
         const formDataObject = new FormData();
         formDataObject.append('name', formData.name);
         formDataObject.append('email', formData.email);
+        formDataObject.append('address', formData.address);
         formDataObject.append('number', formData.number);
-        formDataObject.append('position', formData.position);
+        formDataObject.append('user', formData.user);
         formDataObject.append('username', formData.username);
         formDataObject.append('password', formData.password);
         if (formData.myfile) {
@@ -50,14 +54,14 @@ export default function Signup() {
         }
         console.log(formDataObject);
         console.log(formData);
-        const response = await axios.post('http://localhost:3001/auth/register', formDataObject);
+        const response = await axios.post('http://localhost:3001/seller/addcustomer', formDataObject, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true });
         
-        toast.success('Signup successful!');
-        router.push('/Sales_Representatives/sign_in');
+        toast.success('Customer add successful!');
+        router.push('/Sales_Representatives/dashboard');
      
       } catch (error) {
-        console.error('Error during signup:', error);
-        toast.error('Signup failed. Please try again.');
+        console.error('Error during add customer:', error);
+        toast.error('Customer add failed. Please try again.');
       }
     } else {
       setErrors(validationErrors);
@@ -90,14 +94,18 @@ export default function Signup() {
       errors.email = 'Invalid email address';
     }
 
+    if (!formData.address) {
+        errors.address = 'Address is required';
+    }
+
     if (!formData.number) {
         errors.number = 'Number is required';
     } else if (!/^[0-9]+$/.test(formData.number)) {
       errors.number = 'Phone number field must contain only digits';
     }
 
-    if (!formData.position) {
-        errors.position = 'Position is required';
+    if (!formData.user) {
+        errors.user = 'User is required';
     }
 
     if (!formData.username) {
@@ -118,10 +126,10 @@ export default function Signup() {
 
   return (
     <>
-    <NavBar />
+    <Session />
     <div className="max-w-md mx-auto mt-8">
         <div className="flex items-center justify-center gap-2 mt-3 mb-3">
-            <h1 className="">Sign up</h1>
+            <h1 className="">Add Customer</h1>
         </div>
         <Toaster />
         <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -137,6 +145,13 @@ export default function Signup() {
                 {errors.email && <p className="text-red-500 text-xs italic">{errors.email}</p>}
             </div>
             <div className=" flex items-center justify-center gap-2 mb-2">
+                <input type="text" id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange} className="input input-bordered" placeholder="Address" />
+                {errors.address && <p className="text-red-500 text-xs italic">{errors.address}</p>}
+            </div>
+            <div className=" flex items-center justify-center gap-2 mb-2">
                 <input type="number" id="number"
                     name="number"
                     value={formData.number}
@@ -147,9 +162,9 @@ export default function Signup() {
                 <input type="text" id="position"
                     name="position"
                     readOnly
-                    value={formData.position}
-                    onChange={handleInputChange} className="input input-bordered" placeholder="Position" />
-                {errors.position && <p className="text-red-500 text-xs italic">{errors.position}</p>}
+                    value={formData.user}
+                    onChange={handleInputChange} className="input input-bordered" placeholder="User" />
+                {errors.user && <p className="text-red-500 text-xs italic">{errors.user}</p>}
             </div>
             <div className=" flex items-center justify-center gap-2 mb-2">
                 <input type="text" id="username"
@@ -173,9 +188,8 @@ export default function Signup() {
             <div className="flex justify-center">
                 <button
                     type="submit"
-                    className="btn btn-active"
-                >
-                    Sign Up
+                    className="btn btn-active">
+                    Registration
                 </button>
             </div>
         </form>

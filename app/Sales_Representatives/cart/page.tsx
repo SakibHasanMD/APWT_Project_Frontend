@@ -64,28 +64,10 @@ export default function Cart() {
     }
 
 
-      const handleQuantityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //   const handleQuantityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-        setQuantityInput(e.target.value);
-    }
-
-    const handleSubmit = async (e: any) => {
-        e.preventDefault();
-        try {
-        //   const productData = new FormData();
-        //   productData.append('productName', productName);
-        //   productData.append('productCode', productCode);
-        //   productData.append('productQuantity', productQuantity);
-        //   productData.append('productCategory', productCategory);
-        //   productData.append('productPrice', productPrice);
-        //   productData.append('productPic', productPic);
-        //   //const response = await axios.post(process.env.NEXT_PUBLIC_API_ENDPOINT + '/seller/addproduct', productData);
-        //   console.log(response);
-          } catch (error) {
-          console.error(error);
-          }
-        //console.log({ productName, productCode, productQuantity, productCategory, productPrice, productPic });
-    };
+    //     setQuantityInput(e.target.value);
+    // }
  
     return (<>
        <Session />

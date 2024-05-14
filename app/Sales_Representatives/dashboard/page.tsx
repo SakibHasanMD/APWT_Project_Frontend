@@ -16,7 +16,7 @@ export default function Dashboard() {
    const router = useRouter();
    const [jsonData, setJsonData] = useState([]);
    const [productName, setSearch] = useState('');
-   //const [searchData, setSearchData] = useState('');
+   const [searchData, setSearchData] = useState([]);
 
   useEffect(() => {
     fetchProducts();
@@ -76,10 +76,11 @@ export default function Dashboard() {
     }
   }
 
+
   const fetchProducts = async () => {
     try {
     const response: any = await axios.get('http://localhost:3001/seller/show_all_product', { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, withCredentials: true });
-      const jsonData = response.data
+    const jsonData = response.data
       setJsonData(jsonData);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -87,22 +88,25 @@ export default function Dashboard() {
   };
 
   var flag = 0;
-  var searchData: any;
-  //var jsonData: any;
+  //var searchData: any;
+ 
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const search: any = await axios.get('http://localhost:3001/seller/search_product_name/' + productName);
-      searchData = search.data;
+      const searchData = search.data;
+      //const jsonData = response.data
+      //setJsonData(jsonData);
       flag = 1;
-      //setSearchData(searchData);
+      setSearchData(searchData);
       //fetchProducts();
       } catch (error) {
       console.error(error);
       }
       console.log(productName);
       console.log(searchData);
+      console.log(flag);
   };
   // const fetchProducts = async () => {
   //   if(flag == 1){
@@ -118,43 +122,43 @@ export default function Dashboard() {
 
   // }
 
-  function setSearchData(searchdata: any){
+  // function setSearchData(searchdata: any){
 
-    return(
-      <>
-        {searchdata.map((items: any) => {
-            return (
-              <>
-                <ProductCard data={items} />
-              </>
+  //   return(
+  //     <>
+  //       {searchdata.map((items: any) => {
+  //           return (
+  //             <>
+  //               <ProductCard data={items} />
+  //             </>
 
-            );
-          }
+  //           );
+  //         }
 
-        )}
-      </>
-    );
+  //       )}
+  //     </>
+  //   );
 
-  }
-  if(flag == 1){
-    return(
-      <>
-          {/* {searchData.map((items: any) => {
-            return (
-              <ProductCard data={items} />
+  // }
+  // if(flag === 1){
+  //   return(
+  //     <>
+  //         {/* {searchData.map((items: any) => {
+  //           return (
+  //             <ProductCard data={items} />
 
-            );
-          }
+  //           );
+  //         }
 
-          )} */}
+  //         )} */}
           
-          <h1>{setSearchData(searchData)}</h1>
+  //         <h1>{setSearchData(searchData)}</h1>
 
-      </>
-    );
-  }
+  //     </>
+  //   );
+  // }
   
-  else{
+  // else{
   return (<>
     <Session />
      <div className=" justify-center bg-gray-50 py-5 px-4 sm:px-6 lg:px-8">
@@ -184,6 +188,39 @@ export default function Dashboard() {
         </div>
       </form>
 
+      {/* {flag === 1 ? (<div className="grid grid-cols-6 gap-2">
+        {searchData.map((items: any, index: any) => {
+           return (<div key={index}>
+            <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <a href="#">
+                <img className="p-8 rounded-t-lg" src={'http://localhost:3001/seller/getimage/' + items.filename} alt="product image" />
+              </a>
+              <div className="px-5 pb-5">
+                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                  {items.productName}
+                </h5>
+              Id:  {items.productId}<br />
+              Code:  {items.productCode}<br />
+              Quantity:  {items.productQuantity}<br />
+              Category:  {items.productCategory}<br />
+              <div className="flex items-center justify-between">
+                <span className="text-3xl font-bold text-gray-900 dark:text-white">৳{items.productPrice}</span>
+                <button className="text-white bg-neutral hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => handleCart(items)}>Add to cart</button>
+              </div> <br />
+              <div className="flex items-center justify-between">
+                <button className="text-white bg-neutral hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => handleUpdate(items)}>Update</button>
+                <button className="text-white bg-neutral hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => handleDelete(items)}>Delete</button>
+              </div>
+              </div>
+            </div>
+          </div>
+
+          );
+        }
+
+
+        )}
+      </div>) : ( */}
       <div className="grid grid-cols-6 gap-2">
         {jsonData.map((items: any, index: any) => {
            return (<div key={index}>
@@ -219,10 +256,10 @@ export default function Dashboard() {
 
 
         )}
-      </div>
+      </div> {/* )} */}
     </div>
   </>);
-  }
+  //}
 }
 
 // export default function Dashboard() {
