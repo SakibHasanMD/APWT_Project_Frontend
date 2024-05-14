@@ -37,12 +37,24 @@ export default function Dashboard() {
       const token = localStorage.getItem('token');
       const username = localStorage.getItem('username');
       if (token) {
-        const response = await axios.post('http://localhost:3001/seller/order/' + username, {
-          productId: items.productId,
-          productName: items.productName,
-          productQuantity: 1,
-          productPrice: items.productPrice
-        });
+        // var count = 0;
+        // count = count + 1;
+        // if(count == 1){
+          const response = await axios.post('http://localhost:3001/seller/order/' + username, {
+            productId: items.productId,
+            productName: items.productName,
+            productQuantity: 1,
+            productPrice: items.productPrice
+          });
+        // }else if(count>1){
+        //   const response = await axios.put('http://localhost:3001/seller/update_order', {
+        //     productId: items.productId,
+        //     productName: items.productName,
+        //     productQuantity: count,
+        //     productPrice: items.productPrice
+        //   });
+        // }
+        
 
         toast.success('Add to Cart');
 
@@ -51,6 +63,16 @@ export default function Dashboard() {
       }
     } catch(error){
       console.error('Error Add Cart:', error);
+    }
+  }
+
+  async function handleDelete(items: any){
+    try{
+      const response = await axios.delete('http://localhost:3001/seller/delete_product/' + items.productName);
+
+      toast.success('Remove Product');
+    }catch(error){
+      console.error('Error Remove:', error);
     }
   }
 
@@ -186,7 +208,7 @@ export default function Dashboard() {
             {/* <Link href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</Link>
             <a href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</a> */}
                 <button className="text-white bg-neutral hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => handleUpdate(items)}>Update</button>
-                <button className="text-white bg-neutral hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</button>
+                <button className="text-white bg-neutral hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => handleDelete(items)}>Delete</button>
               </div>
               </div>
             </div>

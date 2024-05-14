@@ -102,6 +102,7 @@ export default function Session () {
               <li><Link href="/Sales_Representatives/add_product/">Add Product</Link></li>
               <li><Link href="/Sales_Representatives/add_customer/">Add Customer</Link></li>
               <li><Link href="/Sales_Representatives/cart/">Cart</Link></li>
+              <li><Link href="/Sales_Representatives/show_order/">Order History</Link></li>
               <li>
                   <div className="dropdown dropdown-end">
                       <div tabIndex={1} role="button" className="">
