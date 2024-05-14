@@ -49,9 +49,10 @@ export default function ShowProfile() {
 
     return (<>
         <Session />
+          <div className="flex justify-center items-center">
            <div className="card w-96 bg-base-100 shadow-xl">
                 <figure className="px-10 pt-10">
-                    <img src={'http://localhost:3001/seller/getimage/' + user?.filename} alt="Shoes" className="rounded-xl" />
+                    <img src={'http://localhost:3001/seller/getimage/' + user?.filename} alt="Image not found" className="rounded-xl" />
                 </figure>
                 <div className="card-body items-center text-center">
                     <h2 className="card-title">ID: {user?.sellerId}</h2>
@@ -67,6 +68,7 @@ export default function ShowProfile() {
                     </div>
                 </div>
             </div>
+          </div>
         </>
     );
 }

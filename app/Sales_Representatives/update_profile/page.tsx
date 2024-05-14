@@ -128,7 +128,7 @@ export default function UpdateProfile() {
  
     return (
 
-        <>
+      <>
         <Session />
 
     <div className="max-w-md mx-auto mt-8">
@@ -181,14 +181,14 @@ export default function UpdateProfile() {
                     className="btn btn-active">
                     Save Changes
                 </button>
-                <div className="card-actions">
+                {/* <div className="card-actions">
                     <button className="btn btn-primary"><Link href="/Sales_Representatives/update_picture/">Update Picture</Link></button>
-                </div>
+                </div> */}
             </div>
         </form>
     </div>
 
-        </>
+    </>
 
     );
 
