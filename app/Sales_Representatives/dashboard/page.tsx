@@ -106,7 +106,7 @@ export default function Dashboard() {
       <Toaster />
 
       <form onSubmit={handleSubmit} >
-        <div className="flex flex-row form-control justify-center items-center gap-2">
+        <div className="flex flex-row form-control justify-center items-center gap-2 mb-6">
           <input type="text" id="name" name="name" value={productName} onChange={(e) => setSearch(e.target.value)} placeholder="Product Search" className="input input-bordered w-80 "/>
           <button type="submit">Search</button>
         </div>
