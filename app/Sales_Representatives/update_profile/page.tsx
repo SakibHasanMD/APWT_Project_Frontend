@@ -172,7 +172,7 @@ export default function UpdateProfile() {
                 {/* {errors.username && <p className="text-red-500 text-xs italic">{errors.username}</p>} */}
             </div>
             <div className=" flex items-center justify-center gap-2 mb-2">
-                <img className="p-8 rounded-t-lg" src={'http://localhost:3001/seller/getimage/' + user?.filename} alt="product image" />
+                <img className="p-8 rounded-t-lg" src={'http://localhost:3001/seller/getimage/' + user?.filename} alt="Image not found" />
                 {/* {errors.username && <p className="text-red-500 text-xs italic">{errors.username}</p>} */}
             </div>          
             <div className="flex gap-2 justify-center">
